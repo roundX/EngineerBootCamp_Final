@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>BLOG</title>
+    <!-- フォントの取得 -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/3019366ae3.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <div class="wrap">
+      <!---------------------------- header ------------------------------>
+      <header class="header">
+        <h1 class="header__title tx__center">BLOG</h1>
+        <ul class="header__nav">
+          <li class="header__nav-list">
+            <a href="#">Apps</a>
+          </li>
+          <li class="header__nav-list">
+            <a href="#">Games</a>
+          </li>
+          <li class="header__nav-list">
+            <a href="#" style="color: darkcyan;">Movies</a>
+          </li>
+          <li class="header__nav-list">
+            <a href="#">Books</a>
+          </li>
+          <li class="header__nav-list">
+            <a href="#">Wines</a>
+          </li>
+        </ul>
+      </header>
+
+      <!----------------------------- main ------------------------------->
+      <main class="main">
+        <div class="content" id="Movie">
+          <h3 class="content__label" id="content__label"></h3>
+          <ul class="content__sequence">
+            <!-- ここに追加される -->
+          </ul>
+        </div>
+      </main>
+
+      <!---------------------------- footer ------------------------------>
+      <footer class="footer tx__center">
+        <a href="#" class="fa fa-chevron-up icon"></a>
+        <small>copyrights 2020 Kento Maruyama All RIghts Reserved.</small>
+      </footer>
+
+      <!-------------------------------------------------------------->
+      <!-- jquery読み込み -->
+      <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+      <!-- Firebase -->
+      <!-- The core Firebase JS SDK is always required and must be listed first -->
+      <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase.js"></script>
+
+      <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyAoi5gcBVvPjo6ASxRAnXAh9PSAAWYU_BQ",
+          authDomain: "test-ebe85.firebaseapp.com",
+          databaseURL: "https://test-ebe85.firebaseio.com",
+          projectId: "test-ebe85",
+          storageBucket: "test-ebe85.appspot.com",
+          messagingSenderId: "512483294883",
+          appId: "1:512483294883:web:7b9590b23697a8d8370916"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        //firebaseのデーターベース（保存させる場所）を使う
+        const newPostRef = firebase.database().ref();
+      </script>
+
+      <!-- js読み込み -->
+      <script src="js/main.js"></script>
+    </div>
+  </body>
+</html>
