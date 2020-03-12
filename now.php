@@ -24,7 +24,6 @@
   $sort = $_GET["sort"];
 
   // 現在時刻取得
-  // 東京の標準時刻に設定
   date_default_timezone_set('Asia/Tokyo');
   $hour = date("H");
   $minute = date("i");
@@ -113,7 +112,7 @@
   // 0:パラサイト、1:黒い司法
   $theaterName = [
     [['TOHOシネマズ 日比谷'], ['TOHOシネマズ 日本橋'], ['TOHOシネマズ 六本木ヒルズ'], ['ユナイテッド・シネマ豊洲'], ['TOHOシネマズ 上野']],
-    [['TOHOシネマズ 日比谷'], ['TOHOシネマズ 日本橋'], ['ユナイテッド・シネマ豊洲'], ['新宿ピカデリー'], ['T・ジョイPRINCE品川']]
+    [['TOHOシネマズ 渋谷'], ['TOHOシネマズ 新宿'], ['新宿バルト9'], ['新宿ピカデリー'], ['T・ジョイPRINCE品川']]
   ];
 
   $theaterTime = array();
@@ -178,13 +177,13 @@
           <ul class="content__sequence">
 
             <!-- ここにコンテンツを追加 -->
+            <?= $mainView ?>
             <!-- 以下のような書式で入ってくる
           "<li class='content__block' id='"$result["id"]"'>
               <img src="$result["jacket"]" class='content__block-image'>
               <h4 class='content__block-title'>"$result["title"]"</h4>
           </li>" -->
 
-            <?= $mainView ?>
 
           </ul>
         </div>
@@ -204,12 +203,12 @@
 
         <ul class="sidebar__list">
           <!-- ここにコンテンツを追加 -->
+          <?= $sidebarView ?>
           <!-- 以下のような書式で入ってくる
               "<li><a href='#$result["title"]' class='sidebar__list-index'>
                 "$result["title"]"</a>"</li>;
            -->
 
-          <?= $sidebarView ?>
         </ul>
       </div>
 

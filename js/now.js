@@ -84,12 +84,15 @@ $(function() {
     for (let j = 0; j < distance.length; j++) {
       for (let k = 0; k < theaterName.length; k++) {
         for (let l = 0; l < theaterName[k].length; l++) {
-          if (distance[j].name == theaterName[k][l]) {
-            theaterInfo[k] = {
+          if (
+            distance[j].name == theaterName[k][l] &&
+            theaterTime[k][l] != "null"
+          ) {
+            theaterInfo.push({
               name: distance[j].name,
               distance: distance[j].distance,
               time: theaterTime[k][l]
-            };
+            });
           }
         }
       }
@@ -162,7 +165,7 @@ $(function() {
       try {
         //秒数と、関数を渡す
         await wait(
-          7,
+          5,
           navigator.geolocation.getCurrentPosition(
             successCallback,
             errorCallback
@@ -187,7 +190,7 @@ $(function() {
     currentCheck();
   });
 
-  // 上映時間表示
+  // 上映時間表示---------------------------------------------------------
   $(".content__block").on("click", function(e) {
     if (contentNumStr == e.target.classList[1] && appearance == true) {
       $("." + contentNumStr).css("background-color", "#fff");
@@ -216,18 +219,30 @@ $(function() {
         borderContentNum = contentNum;
       }
 
-      // 上映場所・時間・距離を表示
-      $("." + borderContentNum).after(
-        "<li class='content__theaterInfo'><div class='content__theaterInfo-wrapper'><h3 class='content__theaterInfo-name'>" +
-          theaterInfo[0].name +
-          "<small>(" +
-          Math.floor(theaterInfo[0].distance * 10) / 10 +
-          "km)</small></h3><h2 class='content__theaterInfo-time'>" +
-          theaterInfo[0].time +
-          "</h2></div></li>"
+      // 上映場所・時間・距離を表示--------------------------------------------
+      let theaterInfoViewTmp = [];
+      let theaterInfoView = [];
+      // 3は情報の表示数
+      for (let i = 0; i < 3; i++) {
+        theaterInfoViewTmp.push(
+          "<div class='content__theaterInfo-wrapper'><h3 class='content__theaterInfo-name'>" +
+            theaterInfo[i].name +
+            "<small>(" +
+            Math.floor(theaterInfo[i].distance * 10) / 10 +
+            "km)</small></h3><h2 class='content__theaterInfo-time'>" +
+            theaterInfo[i].time +
+            "</h2></div>"
+        );
+      }
+      theaterInfoView.push(
+        "<li class='content__theaterInfo'>" + theaterInfoViewTmp + "</li>"
       );
+      // g = global match（一致する全要素指定)
+      let regExp = /,/g;
+      let replaceTheaterInfoView = theaterInfoView[0].replace(regExp, "");
+      $("." + borderContentNum).after(replaceTheaterInfoView);
 
-      // 枠線の吹き出しの位置を選択されたコンテンツの箇所によって変更
+      // 枠線の吹き出しの位置を選択されたコンテンツの箇所によって変更---------------
       let borderPosition;
       switch (remainder) {
         case 0:
@@ -249,7 +264,7 @@ $(function() {
       // 枠線の吹き出しの位置を調整
       $(".content__theaterInfo:before").css("left", borderPosition);
 
-      // 上映時間表示のトグルスイッチをon
+      // 上映時間表示のトグル
       appearance = true;
     }
   });

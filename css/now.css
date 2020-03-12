@@ -123,18 +123,24 @@ header {
   background-color: #e0edff;
 }
 
-.content__theaterInfo:before {
+/* 枠の吹き出し */
+/* .content__theaterInfo:before {
   content: "";
   position: absolute;
   top: -55px;
-  /* left: ""; */
+  left: "";
   border: 30px solid transparent;
   border-bottom: 25px solid #e0edff;
-}
+} */
 
 .content__theaterInfo-wrapper {
   display: inline-block;
-  padding: 15px 30px;
+  padding: 15px 20px;
+  /* border-right: solid 1px rgba(0, 0, 0, 0.1); */
+  /* border-left: solid 1px rgba(0, 0, 0, 0.1); */
+}
+
+.content__theaterInfo-wrapper:nth-child(even) {
   border-right: solid 1px rgba(0, 0, 0, 0.1);
   border-left: solid 1px rgba(0, 0, 0, 0.1);
 }
