@@ -2,8 +2,41 @@
 include("function.php");
 require_once("add/phpQuery-onefile.php");
 
-// DB接続
+// DB最終登録日時を取得
 $pdo = jointDB();
+$stmt = $pdo->prepare("SELECT date FROM url_table");
+$status = $stmt->execute();
+$DBdate = "";
+if ($status == false) {
+    $error = $stmt->errorInfo();
+    exit("ErrorQuery:" . $error[2]);
+} else {
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (empty($result)) {
+        $DBdate = "0000-00-00";
+    } else {
+        $DBdate = $result["date"];
+    }
+}
+// 現在の日時取得
+date_default_timezone_set('Asia/Tokyo');
+$year = date("Y");
+$month = date("m");
+$day = date("d");
+$nowDate = $year . "-" . $month . "-" . $day;
+// DB情報が同じ日時の場合更新せず進む
+if ($status == false) {
+    //SQL実行時にエラーがある場合（エラーオブジェクト取得して表示）
+    var_dump($status);
+    $error = $stmt->errorInfo();
+    exit("QueryError:" . $error[2]);
+} else {
+    if ($DBdate == $nowDate) {
+
+        header("Location: now.php");
+        exit;
+    }
+}
 
 // データ取得SQL作成-------------------------------------------------
 $stmtDetail = $pdo->prepare("SELECT detail FROM now_table");
@@ -38,8 +71,8 @@ for ($j = 0; $j < count($detail); $j++) {
 
 
 // データベースにURL登録-------------------------------------
-$stmt = $pdo->prepare("INSERT INTO url_table(id, url)
-VALUES(NULL, :url)");
+$stmt = $pdo->prepare("INSERT INTO url_table(id, url, date)
+VALUES(NULL, :url, sysdate())");
 
 for ($k = 0; $k < count($scheduleURL); $k++) {
     $stmt->bindValue(':url', $scheduleURL[$k], PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)

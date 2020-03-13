@@ -139,7 +139,7 @@
             <ul class="contents__wrapper">
                 <li class="contents__list">
                     <img class="nowJacket">
-                    <a href="now.php">今から観る</a>
+                    <a href="getURL.php">今から観る</a>
                     <!-- <a href="getURL.php">今から観る</a> -->
                 </li>
                 <li class="contents__list" id="comingSoon">

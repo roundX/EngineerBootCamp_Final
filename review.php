@@ -64,7 +64,7 @@
       <h2 class="header__subTitle tx__center">- What do you watch? -</h2>
       <ul class="header__nav">
         <li class="header__nav-list">
-          <a href="now.php">今から観る</a>
+          <a href="getURL.php">今から観る</a>
         </li>
         <li class="header__nav-list">
           <a href="#">公開予定</a>

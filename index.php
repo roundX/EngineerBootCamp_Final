@@ -1,6 +1,43 @@
 <?php
-
 include("function.php");
+
+// DB最終登録日時を取得
+$pdo = jointDB();
+$stmt = $pdo->prepare("SELECT date FROM now_table");
+$status = $stmt->execute();
+$DBdate = "";
+if ($status == false) {
+    $error = $stmt->errorInfo();
+    exit("ErrorQuery:" . $error[2]);
+} else {
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (empty($result)) {
+        $DBdate = "0000-00-00";
+    } else {
+        $DBdate = $result["date"];
+    }
+}
+// 現在の日時取得
+date_default_timezone_set('Asia/Tokyo');
+$year = date("Y");
+$month = date("m");
+$day = date("d");
+$nowDate = $year . "-" . $month . "-" . $day;
+// DB情報が同じ日時の場合更新せず進む
+if ($status == false) {
+    //SQL実行時にエラーがある場合（エラーオブジェクト取得して表示）
+    var_dump($status);
+    $error = $stmt->errorInfo();
+    exit("QueryError:" . $error[2]);
+} else {
+    if ($DBdate == $nowDate) {
+
+        header("Location: hp.php");
+        exit;
+    }
+}
+
+
 require_once("add/phpQuery-onefile.php");
 
 // filmarksよりデータ取得------------------------------------------------
@@ -53,14 +90,10 @@ for ($i = 0; $i < $title_numTrend; $i++) {
 }
 // --------------------------------------------------------------------
 
-
-// DB接続
-$pdo = jointDB();
-
 // データ登録SQL作成-------------------------------------------------------
 // now--------------------------------------
-$stmtNow = $pdo->prepare("INSERT INTO now_table(id, jacket, title, synopsis, detail)
-VALUES(NULL, :jacket, :title, :synopsis, :detail)");
+$stmtNow = $pdo->prepare("INSERT INTO now_table(id, jacket, title, synopsis, detail, date)
+VALUES(NULL, :jacket, :title, :synopsis, :detail, sysdate())");
 
 for ($j = 0; $j < $title_numNow; $j++) {
     $stmtNow->bindValue(':jacket', $jacketNow[$j], PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
@@ -77,8 +110,8 @@ if ($statusNow == false) {
 }
 
 // coming-----------------------------------
-$stmtComing = $pdo->prepare("INSERT INTO coming_table(id, jacket, title, synopsis)
-VALUES(NULL, :jacket, :title, :synopsis)");
+$stmtComing = $pdo->prepare("INSERT INTO coming_table(id, jacket, title, synopsis, date)
+VALUES(NULL, :jacket, :title, :synopsis, sysdate())");
 
 for ($j = 0; $j < $title_numComing; $j++) {
     $stmtComing->bindValue(':jacket', $jacketComing[$j], PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
@@ -94,8 +127,8 @@ if ($statusComing == false) {
 }
 
 // review-------------------------------------
-$stmtReview = $pdo->prepare("INSERT INTO review_table(id, jacket, title, review)
-VALUES(NULL, :jacket, :title, :review)");
+$stmtReview = $pdo->prepare("INSERT INTO review_table(id, jacket, title, review, date)
+VALUES(NULL, :jacket, :title, :review, sysdate())");
 
 for ($j = 0; $j < $title_numReview; $j++) {
     $stmtReview->bindValue(':jacket', $jacketReview[$j], PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
@@ -111,8 +144,8 @@ if ($statusReivew == false) {
 }
 
 // rental-------------------------------------
-$stmtRental = $pdo->prepare("INSERT INTO rental_table(id, jacket, title, synopsis)
-VALUES(NULL, :jacket, :title, :synopsis)");
+$stmtRental = $pdo->prepare("INSERT INTO rental_table(id, jacket, title, synopsis, date)
+VALUES(NULL, :jacket, :title, :synopsis, sysdate())");
 
 for ($j = 0; $j < $title_numRental; $j++) {
     $stmtRental->bindValue(':jacket', $jacketRental[$j], PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
@@ -128,8 +161,8 @@ if ($statusRental == false) {
 }
 
 // trend-------------------------------------
-$stmtTrend = $pdo->prepare("INSERT INTO trend_table(id, jacket, title, synopsis)
-VALUES(NULL, :jacket, :title, :synopsis)");
+$stmtTrend = $pdo->prepare("INSERT INTO trend_table(id, jacket, title, synopsis, date)
+VALUES(NULL, :jacket, :title, :synopsis, sysdate())");
 
 for ($j = 0; $j < $title_numTrend; $j++) {
     $stmtTrend->bindValue(':jacket', $jacketTrend[$j], PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
