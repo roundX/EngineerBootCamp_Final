@@ -38,6 +38,11 @@ if ($status == false) {
     }
 }
 
+// DB登録前に全テーブル削除。重複を避ける
+$stmt = $pdo->prepare("SELECT date FROM url_table");
+$status = $stmt->execute();
+
+
 // データ取得SQL作成-------------------------------------------------
 $stmtDetail = $pdo->prepare("SELECT detail FROM now_table");
 $statusDetail = $stmtDetail->execute();

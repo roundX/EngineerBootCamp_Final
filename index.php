@@ -37,6 +37,18 @@ if ($status == false) {
     }
 }
 
+// DB登録前に全テーブル削除。重複を避ける
+$stmt = $pdo->prepare("DELETE FROM now_table");
+$status = $stmt->execute();
+$stmt = $pdo->prepare("DELETE FROM coming_table");
+$status = $stmt->execute();
+$stmt = $pdo->prepare("DELETE FROM rental_table");
+$status = $stmt->execute();
+$stmt = $pdo->prepare("DELETE FROM review_table");
+$status = $stmt->execute();
+$stmt = $pdo->prepare("DELETE FROM trend_table");
+$status = $stmt->execute();
+
 
 require_once("add/phpQuery-onefile.php");
 
